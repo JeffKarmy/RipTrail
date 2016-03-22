@@ -1,0 +1,109 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="RipTrail.AppSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn" />
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn" />
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut" />
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut" />
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+
+    <Grid x:Name="LayoutRoot">
+
+        <phone:Pivot Name="pivAppSettings" Title="RIP TRAIL">
+            <!--Pivot Item One-->
+            <phone:PivotItem Header="Map Settings" Margin="12,0,12,0">
+                <Grid x:Name="ContentGridMapSettings" >
+                    <toolkit:ListPicker x:Name="lstMapTypes" HorizontalAlignment="Left" Margin="0,103,0,0" VerticalAlignment="Top" Width="456" Header="Default Map" Height="320" SelectionChanged="LstMapTypes_OnSelectionChanged" Canvas.ZIndex="1">
+                        <toolkit:ListPickerItem Content="Road" Margin="0,0,4,0"/>
+                        <toolkit:ListPickerItem Content="Hybrid" Margin="0,0,-6,0"/>
+                        <toolkit:ListPickerItem Content="Aerial" Margin="0,0,-6,0"/>
+                        <toolkit:ListPickerItem Content="Terrain" Margin="0,0,-6,0"/>
+                    </toolkit:ListPicker>
+                    <toolkit:ListPicker x:Name="lstMapColors" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="456" Header="Road Map Colors" Height="151" SelectionChanged="ListPicker_MapColor" >
+                        <toolkit:ListPickerItem Content="Light" Margin="0,0,-6,0" />
+                        <toolkit:ListPickerItem Content="Dark" Margin="0,0,-6,0"/>
+                    </toolkit:ListPicker>
+                    <toolkit:ToggleSwitch x:Name="togCourse" Header="Map Orientation" IsChecked="false" Content="North Up" Margin="0,207,10,308" Checked="togCourse_Checked" Unchecked="togCourse_UnChecked" RenderTransformOrigin="0.5,0.5">
+                    </toolkit:ToggleSwitch>
+                    <TextBlock Text="Switch off for north up, switch on for course up." Margin="10,291,0,308" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,-2.969">
+                    </TextBlock>
+                </Grid>
+
+            </phone:PivotItem>
+            <!--Pivot Item Two-->
+            <phone:PivotItem Header="App Settings" Margin="12,0,12,0">
+                <Grid x:Name="ContentPanelAppSettings" Height="631" VerticalAlignment="Top" >
+                    <toolkit:ToggleSwitch x:Name="togMyLocation" Header="Access My Location" IsChecked="false" Content="Off" Margin="0,0,0,512" Checked="togMyLocation_Checked" Unchecked="togMyLocation_UnChecked" RenderTransformOrigin="0.501,0.481"/>
+                    <TextBlock Text="Allow access to you location for map updates." Margin="10,83,0,512" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    <toolkit:ListPicker x:Name="lstMapUnits" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="436" Header="Map Units" Height="218" SelectionChanged="ListPicker_MapUnits" Canvas.ZIndex="2">
+                        <toolkit:ListPickerItem Content="US standard units" Width="418"/>
+                        <toolkit:ListPickerItem Content="metric units" Margin="0,0,-6,0"/>
+                        <toolkit:ListPickerItem Content="nautical units" Margin="0,0,-6,0"/>
+                    </toolkit:ListPicker>
+                    <toolkit:ToggleSwitch x:Name="togScreenSleep" Header="Disable Screen Lock"  Unchecked="togScreenSleep_Unchecked" Checked="togScreenSleep_Checked" Margin="0,229,-10,289"/>
+                    <TextBlock Text="Keeps device from locking screen." Margin="10,303,10,293" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.5,0.5">
+                    </TextBlock>
+
+                    <Button x:Name="btnResetOdo" Content="Odometer Reset" HorizontalAlignment="Right" Margin="0,342,-10,0" VerticalAlignment="Top" Width="466" Click="btnResetOdo_Click" Height="72"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,419,0,0" TextWrapping="Wrap" Text="Reset the odometer back to zero." Width="436" Style="{StaticResource PhoneTextSubtleStyle}" Height="35" VerticalAlignment="Top" />
+                </Grid>
+            </phone:PivotItem>
+
+            <!--Pivot Item Three-->
+            <phone:PivotItem x:Name="pivCompassOptions" Header="Compass Settings" Margin="12,0,12,0" Visibility="Collapsed" >
+                <Grid x:Name="ContentPanelCompassSettings" Margin="12,0,12,0" >
+                    <!--Calibration UI-->
+                    <StackPanel Name="calibrationStackPanel" Background="Black" Opacity="1" Visibility="Collapsed">
+                        <Image Source="/Images/calibrate_compass.png" Opacity=".95" HorizontalAlignment="Center"/>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center">The compass on your device needs to be calibrated.
+                Hold the device in front of you and sweep it through a figure 8 pattern as shown
+                until the calibration is complete.</TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
+                            <TextBlock>heading accuracy:</TextBlock>
+                            <TextBlock Name="calibrationTextBlock">0.0°</TextBlock>
+                        </StackPanel>
+                        <Button Name="calibrationButton" Content="Done" Click="calibrationButton_Click" Canvas.ZIndex="10"></Button>
+                    </StackPanel>
+                    <!--End Calibration UI-->
+                    <Grid x:Name="grdCalibrationPanel" Visibility="visible">
+                    <Button x:Name="btnCalibrateCompass" Content="Calibrate Compass" HorizontalAlignment="Left" Margin="0,0,-6,0" VerticalAlignment="Top" Width="438" Height="80" Click="btnCalibrateCompass_Click" IsEnabled="False"/>
+                    <toolkit:ToggleSwitch x:Name="togHideCompassRose" Header="Hide Compass" Margin="0,85,0,433"  Checked="togHideCompass_Checked" Unchecked="togHideCompass_Unchecked"/>
+                    <TextBlock Text="Hides the compass on the map page." Style="{StaticResource PhoneTextSubtleStyle}" Margin="12,173,12,403"/>
+                    </Grid>
+
+
+
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+</phone:PhoneApplicationPage>
